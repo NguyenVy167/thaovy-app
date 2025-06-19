@@ -1,0 +1,25 @@
+name: Deploy to Replit
+
+on:
+  push:
+    branches:
+      - main # Kích hoạt workflow khi có commit mới trên nhánh main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install Replit CLI
+        run: npm install -g @replit/cli
+
+      - name: Authenticate Replit CLI
+        run: replit login --token ${{ secrets.REPLIT_API_KEY }}
+
+      - name: Deploy Replit application
+        run: replit deploy --force # --force để buộc triển khai, có thể bỏ qua nếu bạn muốn xác nhận thủ công
+        env:
+          REPL_ID: thaovy-app # Thay thế bằng ID của Repl của bạn
+          # REPL_OWNER: your-replit-username # Tùy chọn: Nếu Repl thuộc về một tài khoản khác
