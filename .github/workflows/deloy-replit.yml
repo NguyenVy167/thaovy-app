@@ -15,7 +15,7 @@ jobs:
       - name: Setup SSH Key for Replit # Thiết lập SSH Key để xác thực với Replit Git
         uses: webfactory/ssh-agent@v0.5.3 # Sử dụng action để thêm SSH private key
         with:
-          ssh-private-key: ${{ secrets.REPLIT_SSH_PRIVATE_KEY }} # Secret chứa private key của bạn
+          ssh-private-key: ${{ secrets.REPLIT_API_KEY }} # Secret chứa private key của bạn
 
       - name: Configure Git for Replit # Cấu hình Git để có thể đẩy mã nguồn tới Replit
         run: |
