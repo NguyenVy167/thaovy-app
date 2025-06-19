@@ -20,7 +20,7 @@ jobs:
           # THAY THẾ "YOUR_REPLIT_USERNAME" bằng tên người dùng Replit của bạn
           # VÀ "YOUR_REPL_NAME" bằng tên Repl (dự án) của bạn trên Replit
           # Ví dụ: https://github.com/NguyenVy167/thaovy-app.git
-          git remote add replit https://github.com/YOUR_REPLIT_USERNAME/YOUR_REPL_NAME.git
+          git remote add replit https://github.com/NguyenVy167/thaovy-app.git
         # Gợi ý: Nếu kho Replit của bạn là riêng tư hoặc yêu cầu xác thực,
         # bạn có thể cần tạo Personal Access Token (PAT) trên GitHub
         # và thêm nó vào GitHub Secrets của kho lưu trữ này (ví dụ: REPLIT_GIT_PAT).
