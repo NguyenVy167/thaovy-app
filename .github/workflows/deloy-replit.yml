@@ -12,16 +12,25 @@ jobs:
       - name: Checkout code # Lấy mã nguồn từ kho lưu trữ GitHub hiện tại
         uses: actions/checkout@v3
 
+      - name: Setup SSH Key for Replit # Thiết lập SSH Key để xác thực với Replit Git
+        uses: webfactory/ssh-agent@v0.5.3 # Sử dụng action để thêm SSH private key
+        with:
+          ssh-private-key: ${{ secrets.REPLIT_SSH_PRIVATE_KEY }} # Secret chứa private key của bạn
+
       - name: Configure Git for Replit # Cấu hình Git để có thể đẩy mã nguồn tới Replit
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
-          # RẤT QUAN TRỌNG: Thay thế URL dưới đây bằng URL Git CHÍNH XÁC của Repl của bạn.
+          # RẤT QUAN TRỌNG: Thay thế URL dưới đây bằng URL Git CHÍNH XÁC của Repl của bạn TRÊN REPLIT.
+          # URL này có dạng SSH để tận dụng SSH Key bạn đã thiết lập.
           # Dựa trên đường dẫn Replit bạn cung cấp: https://replit.com/@22dh114365/thaovy-app
-          # URL Git chính xác sẽ là: https://github.com/22dh114365/thaovy-app.git
-          # Đảm bảo bạn đã tạo Personal Access Token (PAT) trên GitHub (Bước 1)
-          # và thêm nó vào GitHub Secrets với tên REPLIT_GIT_PAT (Bước 2).
-          git remote add replit https://oauth2:${{ secrets.REPLIT_API_KEY }}@github.com/22dh114365/thaovy-app.git
+          # URL Git chính xác (SSH) sẽ là: git@replit.com:22dh114365/thaovy-app.git
+          git remote add replit git@replit.com:22dh114365/thaovy-app.git
+          # Thêm Replit vào known_hosts để tránh cảnh báo SSH
+          echo "Host replit.com" >> ~/.ssh/config
+          echo "  StrictHostKeyChecking no" >> ~/.ssh/config
+          echo "  Hostname replit.com" >> ~/.ssh/config
+          echo "  IdentityFile ~/.ssh/id_rsa" >> ~/.ssh/config # Đảm bảo file private key đúng
 
       - name: Push to Replit # Đẩy mã nguồn đã checkout lên kho Git của Replit
         run: git push replit main --force # Sử dụng --force để ghi đè lịch sử nếu cần thiết
