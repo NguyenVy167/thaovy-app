@@ -1,0 +1,75 @@
+
+{% extends "base.html" %}
+
+{% block title %}{{ product[1] if product else 'Sản phẩm' }} - Shopee Clone{% endblock %}
+
+{% block content %}
+{% if product %}
+<div class="row">
+    <div class="col-md-6">
+        <img src="{{ product[5] or 'https://via.placeholder.com/500x500' }}" 
+             class="img-fluid rounded" alt="{{ product[1] }}">
+    </div>
+    
+    <div class="col-md-6">
+        <h1>{{ product[1] }}</h1>
+        <p class="text-muted">Danh mục: {{ product[6] or 'Chưa phân loại' }}</p>
+        
+        <div class="mb-3">
+            <span class="price h3">{{ "{:,}".format(product[3]|int) }} đ</span>
+        </div>
+        
+        <p><strong>Mô tả:</strong></p>
+        <p>{{ product[2] or 'Chưa có mô tả' }}</p>
+        
+        <p><strong>Còn lại:</strong> {{ product[4] }} sản phẩm</p>
+        
+        <div class="d-flex gap-3 mt-4">
+            {% if session.user_id %}
+                {% if product[4] > 0 %}
+                <a href="{{ url_for('add_to_cart', product_id=product[0]) }}" 
+                   class="btn btn-shopee btn-lg">
+                    <i class="fas fa-cart-plus"></i> Thêm vào giỏ hàng
+                </a>
+                <button class="btn btn-outline-primary btn-lg">
+                    <i class="fas fa-bolt"></i> Mua ngay
+                </button>
+                {% else %}
+                <button class="btn btn-secondary btn-lg" disabled>
+                    Hết hàng
+                </button>
+                {% endif %}
+            {% else %}
+            <a href="{{ url_for('login') }}" class="btn btn-shopee btn-lg">
+                Đăng nhập để mua hàng
+            </a>
+            {% endif %}
+        </div>
+        
+        <div class="mt-4">
+            <h5>Thông tin bổ sung</h5>
+            <ul class="list-unstyled">
+                <li><i class="fas fa-truck text-success"></i> Miễn phí vận chuyển</li>
+                <li><i class="fas fa-shield-alt text-primary"></i> Bảo hành chính hãng</li>
+                <li><i class="fas fa-undo text-warning"></i> Đổi trả trong 30 ngày</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-5">
+    <div class="col-12">
+        <h4>Sản phẩm liên quan</h4>
+        <p class="text-muted">Các sản phẩm khác bạn có thể quan tâm</p>
+        <!-- Có thể thêm danh sách sản phẩm liên quan ở đây -->
+    </div>
+</div>
+
+{% else %}
+<div class="alert alert-warning text-center">
+    <h4>Không tìm thấy sản phẩm</h4>
+    <p>Sản phẩm bạn tìm kiếm không tồn tại hoặc đã bị xóa.</p>
+    <a href="{{ url_for('home') }}" class="btn btn-primary">Quay về trang chủ</a>
+</div>
+{% endif %}
+{% endblock %}

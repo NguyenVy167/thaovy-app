@@ -1,0 +1,83 @@
+
+{% extends "base.html" %}
+
+{% block title %}Trang chủ - Shopee Clone{% endblock %}
+
+{% block content %}
+<!-- Banner -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="bg-gradient text-white p-5 rounded" style="background: linear-gradient(135deg, #ee4d2d, #ff6533);">
+            <h1 class="display-4">Chào mừng đến với Shopee Clone</h1>
+            <p class="lead">Khám phá hàng triệu sản phẩm với giá tốt nhất</p>
+        </div>
+    </div>
+</div>
+
+<!-- Categories -->
+{% if categories %}
+<div class="row mb-4">
+    <div class="col-12">
+        <h3 class="mb-3">Danh mục sản phẩm</h3>
+        <div class="row">
+            {% for category in categories %}
+            <div class="col-md-3 col-6 mb-3">
+                <div class="card text-center h-100">
+                    <div class="card-body">
+                        <i class="fas fa-tag fa-3x text-primary mb-3"></i>
+                        <h5 class="card-title">{{ category[1] }}</h5>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Products -->
+<div class="row">
+    <div class="col-12">
+        <h3 class="mb-3">Sản phẩm nổi bật</h3>
+    </div>
+</div>
+
+{% if products %}
+<div class="row">
+    {% for product in products %}
+    <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+        <div class="card product-card h-100">
+            <img src="{{ product[4] or 'https://via.placeholder.com/300x300' }}" 
+                 class="card-img-top" alt="{{ product[1] }}" style="height: 200px; object-fit: cover;">
+            <div class="card-body d-flex flex-column">
+                <h5 class="card-title">{{ product[1] }}</h5>
+                <p class="card-text text-muted small">{{ product[2][:100] }}...</p>
+                <div class="mt-auto">
+                    <p class="price mb-2">{{ "{:,}".format(product[3]|int) }} đ</p>
+                    <div class="d-flex gap-2">
+                        <a href="{{ url_for('product_detail', product_id=product[0]) }}" 
+                           class="btn btn-outline-primary btn-sm flex-fill">Xem chi tiết</a>
+                        {% if session.user_id %}
+                        <a href="{{ url_for('add_to_cart', product_id=product[0]) }}" 
+                           class="btn btn-shopee btn-sm">
+                            <i class="fas fa-cart-plus"></i>
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="row">
+    <div class="col-12">
+        <div class="alert alert-info text-center">
+            <h4>Chưa có sản phẩm nào</h4>
+            <p>Vui lòng thiết lập cơ sở dữ liệu để xem sản phẩm.</p>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

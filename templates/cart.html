@@ -1,0 +1,98 @@
+
+{% extends "base.html" %}
+
+{% block title %}Giỏ hàng - Shopee Clone{% endblock %}
+
+{% block content %}
+<h2><i class="fas fa-shopping-cart"></i> Giỏ hàng của tôi</h2>
+
+{% if cart_items %}
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                {% for item in cart_items %}
+                <div class="row align-items-center border-bottom py-3">
+                    <div class="col-md-2">
+                        <img src="{{ item[4] or 'https://via.placeholder.com/100x100' }}" 
+                             class="img-fluid rounded" alt="{{ item[1] }}">
+                    </div>
+                    <div class="col-md-4">
+                        <h6>{{ item[1] }}</h6>
+                        <a href="{{ url_for('product_detail', product_id=item[5]) }}" 
+                           class="text-decoration-none small">Xem chi tiết</a>
+                    </div>
+                    <div class="col-md-2">
+                        <span class="price">{{ "{:,}".format(item[2]|int) }} đ</span>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="d-flex align-items-center">
+                            <button class="btn btn-sm btn-outline-secondary">-</button>
+                            <span class="mx-2">{{ item[3] }}</span>
+                            <button class="btn btn-sm btn-outline-secondary">+</button>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <strong class="price">{{ "{:,}".format((item[2] * item[3])|int) }} đ</strong>
+                        <br>
+                        <button class="btn btn-sm btn-outline-danger mt-1">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h5>Tóm tắt đơn hàng</h5>
+            </div>
+            <div class="card-body">
+                <div class="d-flex justify-content-between mb-2">
+                    <span>Tạm tính:</span>
+                    <span>{{ "{:,}".format(total|int) }} đ</span>
+                </div>
+                <div class="d-flex justify-content-between mb-2">
+                    <span>Phí vận chuyển:</span>
+                    <span class="text-success">Miễn phí</span>
+                </div>
+                <hr>
+                <div class="d-flex justify-content-between mb-3">
+                    <strong>Tổng cộng:</strong>
+                    <strong class="price">{{ "{:,}".format(total|int) }} đ</strong>
+                </div>
+                
+                <button class="btn btn-shopee w-100 btn-lg">
+                    <i class="fas fa-credit-card"></i> Thanh toán
+                </button>
+                
+                <a href="{{ url_for('home') }}" class="btn btn-outline-secondary w-100 mt-2">
+                    <i class="fas fa-arrow-left"></i> Tiếp tục mua sắm
+                </a>
+            </div>
+        </div>
+        
+        <div class="card mt-3">
+            <div class="card-body text-center">
+                <i class="fas fa-shield-alt fa-2x text-success mb-2"></i>
+                <h6>Mua sắm an toàn</h6>
+                <small class="text-muted">Thanh toán được bảo mật 100%</small>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% else %}
+<div class="text-center py-5">
+    <i class="fas fa-shopping-cart fa-5x text-muted mb-3"></i>
+    <h4>Giỏ hàng trống</h4>
+    <p class="text-muted">Bạn chưa có sản phẩm nào trong giỏ hàng</p>
+    <a href="{{ url_for('home') }}" class="btn btn-shopee">
+        <i class="fas fa-shopping-bag"></i> Bắt đầu mua sắm
+    </a>
+</div>
+{% endif %}
+{% endblock %}
