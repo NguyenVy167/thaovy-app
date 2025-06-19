@@ -16,19 +16,12 @@ jobs:
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
-          # Thêm remote Git cho kho lưu trữ Replit của bạn
-          # THAY THẾ "YOUR_REPLIT_USERNAME" bằng tên người dùng Replit của bạn
-          # VÀ "YOUR_REPL_NAME" bằng tên Repl (dự án) của bạn trên Replit
-          # Ví dụ: https://github.com/NguyenVy167/thaovy-app.git
-          git remote add replit https://github.com/NguyenVy167/thaovy-app.git
-        # Gợi ý: Nếu kho Replit của bạn là riêng tư hoặc yêu cầu xác thực,
-        # bạn có thể cần tạo Personal Access Token (PAT) trên GitHub
-        # và thêm nó vào GitHub Secrets của kho lưu trữ này (ví dụ: REPLIT_GIT_PAT).
-        # Sau đó, cấu hình URL remote như sau (uncomment nếu cần):
-        # run: |
-        #   git config --global user.name "GitHub Actions"
-        #   git config --global user.email "actions@github.com"
-        #   git remote add replit https://oauth2:${{ secrets.REPLIT_GIT_PAT }}@github.com/YOUR_REPLIT_USERNAME/YOUR_REPL_NAME.git
+          # RẤT QUAN TRỌNG: Thay thế URL dưới đây bằng URL Git CHÍNH XÁC của Repl của bạn.
+          # Dựa trên đường dẫn Replit bạn cung cấp: https://replit.com/@22dh114365/thaovy-app
+          # URL Git chính xác sẽ là: https://github.com/22dh114365/thaovy-app.git
+          # Đảm bảo bạn đã tạo Personal Access Token (PAT) trên GitHub (Bước 1)
+          # và thêm nó vào GitHub Secrets với tên REPLIT_GIT_PAT (Bước 2).
+          git remote add replit https://oauth2:${{ secrets.REPLIT_API_KEY }}@github.com/22dh114365/thaovy-app.git
 
       - name: Push to Replit # Đẩy mã nguồn đã checkout lên kho Git của Replit
         run: git push replit main --force # Sử dụng --force để ghi đè lịch sử nếu cần thiết
